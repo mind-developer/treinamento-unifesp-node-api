@@ -1,4 +1,6 @@
 const knex = require('../Database/dbconfig')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 module.exports = {
   async index (req, res) {
@@ -38,11 +40,13 @@ module.exports = {
   async create (req, res) {
     const { nome, email, senha } = req.body
 
+    const senhaBcrypt = await bcrypt.hash(senha, 10)
+
     try {
       const usuario = await knex('usuarios').insert({
         nome: nome,
         email: email,
-        senha: senha
+        senha: senhaBcrypt
       })
 
       return res.json({
@@ -108,6 +112,25 @@ module.exports = {
         message: 'Houve um erro ao conectar no banco de dados...'
       })
     }
-  }
+  },
+  async login (req, res) {
+    const { email, senha } = req.body
 
+    // Check for e-mail
+    const user = await knex('usuarios').where({ email: email }).first()
+    if (!user) return res.status(400).json({ success: false, message: 'E-mail ou senha inválidos' })
+
+    const checkBcrypt = await bcrypt.compare(senha, user.senha)
+    console.log(checkBcrypt)
+    if (!checkBcrypt) return res.status(400).json({ success: false, message: 'E-mail ou senha inválidos' })
+
+    const token = jwt.sign({
+      id: user.id
+    }, process.env.TOKEN_SECRET)
+
+    res.json({
+      success: true,
+      jwtToken: token
+    })
+  }
 }
