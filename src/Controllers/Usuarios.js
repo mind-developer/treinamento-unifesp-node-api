@@ -18,6 +18,7 @@ module.exports = {
       })
     }
   },
+  
   async show (req, res) {
     const { id } = req.params
 
@@ -37,6 +38,7 @@ module.exports = {
       })
     }
   },
+  
   async create (req, res) {
     const { nome, email, senha } = req.body
 
@@ -65,6 +67,7 @@ module.exports = {
       })
     }
   },
+
   async update (req, res) {
     const { id } = req.params
     const { nome, email } = req.body
@@ -94,6 +97,7 @@ module.exports = {
       })
     }
   },
+
   async delete (req, res) {
     const { id } = req.params
 
@@ -113,6 +117,7 @@ module.exports = {
       })
     }
   },
+
   async login (req, res) {
     const { email, senha } = req.body
 
