@@ -13,12 +13,18 @@ routes.get('/', (req, res) => {
   })
 })
 
-routes.get('/usuarios', authJWT, Usuarios.index)
-routes.get('/usuarios/:id', Usuarios.show)
+// Rotas abertas
 routes.post('/usuarios', Usuarios.create)
+routes.post('/usuarios/login', Usuarios.login)
+
+// auth middleware
+routes.use(authJWT)
+
+// Rotas privadas
+routes.get('/usuarios', Usuarios.index)
+routes.get('/usuarios/:id', Usuarios.show)
 routes.put('/usuarios/:id', Usuarios.update)
 routes.delete('/usuarios/:id', Usuarios.delete)
 
-routes.post('/usuarios/login', Usuarios.login)
 
 module.exports = routes
