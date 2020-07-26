@@ -7,6 +7,7 @@ const authJWT = require('../Middlewares/auth')
 const PublicRoutes = require('./PublicRoutes')
 const UsuariosRoutes = require('./Usuarios')
 const ProdutosRoutes = require('./Produtos')
+const PedidosRoutes = require('./Pedidos')
 
 routes.get('/', (req, res) => {
   return res.json({
@@ -23,5 +24,6 @@ routes.use(PublicRoutes)
 // Private routes
 routes.use(UsuariosRoutes)
 routes.use(ProdutosRoutes)
+routes.use(PedidosRoutes)
 
 module.exports = routes
