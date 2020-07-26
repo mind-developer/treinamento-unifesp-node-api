@@ -126,7 +126,7 @@ module.exports = {
 
     const token = jwt.sign({
       id: user.id
-    }, process.env.TOKEN_SECRET)
+    }, process.env.JWT_TOKEN_SECRET)
 
     res.json({
       success: true,
