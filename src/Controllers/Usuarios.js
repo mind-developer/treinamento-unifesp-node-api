@@ -1,5 +1,5 @@
 const knex = require('../Database/dbconfig')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
@@ -126,7 +126,6 @@ module.exports = {
     if (!user) return res.status(400).json({ success: false, message: 'E-mail ou senha inválidos' })
 
     const checkBcrypt = await bcrypt.compare(senha, user.senha)
-    console.log(checkBcrypt)
     if (!checkBcrypt) return res.status(400).json({ success: false, message: 'E-mail ou senha inválidos' })
 
     const token = jwt.sign({
