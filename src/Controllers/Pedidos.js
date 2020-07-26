@@ -22,7 +22,7 @@ module.exports = {
         try {
             const produto = await knex("pedidos").where({
                 id: id
-            })
+            }).first()
 
             res.json({
                 success: true,
@@ -127,5 +127,44 @@ module.exports = {
         }
     },
 
+    async showByUsuario (req, res) {
+        const { id_usuario } = req.params
+        try {
+            const produtos = await knex("pedidos").where({
+                id_usuario: id_usuario
+            })
+
+            res.json({
+                success: true,
+                response: produtos
+            })
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                message: 'Houve um erro ao conectar no banco de dados...'
+            })
+        }
+
+    },
+
+    async showByProduto (req, res) {
+        const { id_produto } = req.params
+        try {
+            const produtos = await knex("pedidos").where({
+                id_produto: id_produto
+            })
+
+            res.json({
+                success: true,
+                response: produtos
+            })
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                message: 'Houve um erro ao conectar no banco de dados...'
+            })
+        }
+
+    },
 
 }
