@@ -19,7 +19,7 @@ routes.get('/', (req, res) => {
 routes.use(PublicRoutes)
 
 // Middleware for authentication
-// routes.use(authJWT)
+routes.use(authJWT)
 
 // Private routes
 routes.use(UsuariosRoutes)
