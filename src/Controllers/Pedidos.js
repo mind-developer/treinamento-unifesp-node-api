@@ -20,13 +20,13 @@ module.exports = {
     async show(req, res) {
         const { id } = req.params
         try {
-            const produto = await knex("pedidos").where({
+            const pedido = await knex("pedidos").where({
                 id: id
             }).first()
 
             res.json({
                 success: true,
-                response: produto
+                response: pedido
             })
         } catch (error) {
             res.status(400).json({
@@ -130,13 +130,13 @@ module.exports = {
     async showByUsuario (req, res) {
         const { id_usuario } = req.params
         try {
-            const produtos = await knex("pedidos").where({
+            const pedido = await knex("pedidos").where({
                 id_usuario: id_usuario
             })
 
             res.json({
                 success: true,
-                response: produtos
+                response: pedido
             })
         } catch (error) {
             res.status(400).json({
@@ -150,13 +150,13 @@ module.exports = {
     async showByProduto (req, res) {
         const { id_produto } = req.params
         try {
-            const produtos = await knex("pedidos").where({
+            const pedido = await knex("pedidos").where({
                 id_produto: id_produto
             })
 
             res.json({
                 success: true,
-                response: produtos
+                response: pedido
             })
         } catch (error) {
             res.status(400).json({
