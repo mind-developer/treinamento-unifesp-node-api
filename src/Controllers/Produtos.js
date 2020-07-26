@@ -1,4 +1,3 @@
-const { index, create } = require("./Usuarios");
 const knex = require("../Database/dbconfig");
 
 module.exports = {
