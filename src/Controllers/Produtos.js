@@ -1,7 +1,7 @@
 const knex = require("../Database/dbconfig");
 
 module.exports = {
-    async index(req, res) {
+    async index(req, res, next) {
         try {
             const produtos = await knex("produtos")
 
@@ -10,14 +10,12 @@ module.exports = {
                 response: produtos
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: 'Houve um erro ao conectar no banco de dados...'
-            })
+            error.status = 400
+            next(error)
         }
     },
 
-    async show(req, res) {
+    async show(req, res, next) {
 
         const { id } = req.params
 
@@ -29,14 +27,12 @@ module.exports = {
                 response: produto
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: 'Houve um erro ao conectar no banco de dados...'
-            })
+            error.status = 400
+            next(error)
         }
     },
 
-    async create(req, res) {
+    async create(req, res, next) {
         const {nome, descricao, valor} = req.body
         
         try {
@@ -56,14 +52,12 @@ module.exports = {
                 }
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: error
-            })
+            error.status = 400
+            next(error)
         }
     },
     
-    async update(req, res) {
+    async update(req, res, next) {
         const {id} = req.params
         const {nome, descricao, valor} = req.body
         
@@ -84,14 +78,12 @@ module.exports = {
                 }
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: error
-            })
+            error.status = 400
+            next(error)
         }
     },
 
-    async delete(req, res) {
+    async delete(req, res, next) {
         const {id} = req.params
         
         try {
@@ -104,10 +96,8 @@ module.exports = {
                 }
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: error
-            })
+            error.status = 400
+            next(error)
         }
     },
 }

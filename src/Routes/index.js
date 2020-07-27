@@ -1,7 +1,9 @@
 const express = require('express')
 const routes = express.Router()
+
 // Middlewares
 const authJWT = require('../Middlewares/auth')
+const handleError = require('../Middlewares/handleError')
 
 // Routes
 const PublicRoutes = require('./PublicRoutes')
@@ -25,5 +27,13 @@ routes.use(authJWT)
 routes.use(UsuariosRoutes)
 routes.use(ProdutosRoutes)
 routes.use(PedidosRoutes)
+
+routes.use((req, res, next) => {
+  const error = new Error('Request not found')
+  error.status = 404
+  next(error)
+})
+
+routes.use(handleError)
 
 module.exports = routes

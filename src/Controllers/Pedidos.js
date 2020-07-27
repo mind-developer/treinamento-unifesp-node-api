@@ -10,10 +10,8 @@ module.exports = {
                 response: produtos
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: 'Houve um erro ao conectar no banco de dados...'
-            })
+            error.status = 400
+            next(error)
         }
     },
 
@@ -63,11 +61,8 @@ module.exports = {
                 }
             })
         } catch (error) {
-            res.status(400).json({
-                success: false, 
-                message: 'Houve um erro ao conectar no banco de dados...'
-            }) 
-
+            error.status = 400
+            next(error)
         }
     },
 
@@ -98,11 +93,8 @@ module.exports = {
                 }
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: 'Houve um erro ao conectar no banco de dados...'
-            })
-
+            error.status = 400
+            next(error)
         }
     },
 
@@ -119,10 +111,8 @@ module.exports = {
                 }
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: 'Houve um erro ao conectar no banco de dados...'
-            })
+            error.status = 400
+            next(error)
 
         }
     },
@@ -139,10 +129,8 @@ module.exports = {
                 response: pedido
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: 'Houve um erro ao conectar no banco de dados...'
-            })
+            error.status = 400
+            next(error)
         }
 
     },
@@ -159,10 +147,8 @@ module.exports = {
                 response: pedido
             })
         } catch (error) {
-            res.status(400).json({
-                success: false,
-                message: 'Houve um erro ao conectar no banco de dados...'
-            })
+            error.status = 400
+            next(error)
         }
 
     },

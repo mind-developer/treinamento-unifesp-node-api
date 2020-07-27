@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
-  async index (req, res) {
+  async index (req, res, next) {
     try {
       const usuarios = await knex('usuarios').select('id', 'nome', 'email')
 
@@ -11,15 +11,13 @@ module.exports = {
         success: true,
         response: usuarios
       })
-    } catch (err) {
-      return res.status(400).json({
-        success: false,
-        message: 'Houve um erro ao conectar no banco de dados...'
-      })
+    } catch (error) {
+      error.status = 400
+      next(error)
     }
   },
   
-  async show (req, res) {
+  async show (req, res, next) {
     const { id } = req.params
 
     try {
@@ -32,14 +30,12 @@ module.exports = {
         response: usuario
       })
     } catch (error) {
-      return res.status(400).json({
-        success: false,
-        message: 'Houve um erro ao conectar no banco de dados...'
-      })
+      error.status = 400
+      next(error)
     }
   },
   
-  async create (req, res) {
+  async create (req, res, next) {
     const { nome, email, senha } = req.body
 
     const senhaBcrypt = await bcrypt.hash(senha, 10)
@@ -60,15 +56,16 @@ module.exports = {
         }
       })
     } catch (error) {
-      console.log(error)
-      return res.status(400).json({
-        success: false,
-        message: 'Houve um erro ao conectar no banco de dados...'
-      })
+      // Valida email duplicado
+      if(error.errno === 1062){
+        error = new Error('E-mail já cadastrado')
+      }
+      error.status = 400
+      next(error)
     }
   },
 
-  async update (req, res) {
+  async update (req, res, next) {
     const { id } = req.params
     const { nome, email } = req.body
 
@@ -91,14 +88,12 @@ module.exports = {
       })
     } catch (error) {
       console.log(error)
-      return res.status(400).json({
-        success: false,
-        message: 'Houve um erro ao conectar no banco de dados...'
-      })
+      error.status = 400
+      next(error)
     }
   },
 
-  async delete (req, res) {
+  async delete (req, res, next) {
     const { id } = req.params
 
     try {
@@ -111,14 +106,12 @@ module.exports = {
         response: usuario
       })
     } catch (error) {
-      return res.status(400).json({
-        success: false,
-        message: 'Houve um erro ao conectar no banco de dados...'
-      })
+      error.status = 400
+      next(error)
     }
   },
 
-  async login (req, res) {
+  async login (req, res, next) {
     const { email, senha } = req.body
 
     // Check for e-mail
