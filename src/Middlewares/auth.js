@@ -3,20 +3,20 @@ const jwt = require('jsonwebtoken')
 function auth (req, res, next) {
   const token = req.header('auth-token')
 
-  if (!token) return res.status(401).json({
-    success: false,
-    message: "Acesso negado"
-  })
+  if (!token) {
+    error = new Error('Acesso negado')
+    error.status = 401
+    next(error)
+  }
 
   try {
     const jwt_payload = jwt.verify(token, process.env.JWT_TOKEN_SECRET)
     req.jwt_payload = jwt_payload
     next()
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Token invalido'
-    })
+    error = new Error('Token invalido')
+    error.status = 400
+    next(error)
   }
 }
 
