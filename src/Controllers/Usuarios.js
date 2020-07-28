@@ -116,11 +116,19 @@ module.exports = {
 
     // Check for e-mail
     const user = await knex('usuarios').where({ email: email }).first()
-    if (!user) return res.status(400).json({ success: false, message: 'E-mail ou senha inválidos' })
+    if (!user) {
+      let error = new Error('E-mail ou senha inválidos')
+      error.status = 400
+      next(error)
+    }
 
     // Check for bcrypt pass
     const checkBcrypt = await bcrypt.compare(senha, user.senha)
-    if (!checkBcrypt) return res.status(400).json({ success: false, message: 'E-mail ou senha inválidos' })
+    if (!checkBcrypt) {
+      let error = new Error('E-mail ou senha inválidos')
+      error.status = 400
+      next(error)
+    }
 
     // Generate jwt
     const token = jwt.sign({
