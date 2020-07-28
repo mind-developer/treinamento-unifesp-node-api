@@ -4,7 +4,7 @@ function auth (req, res, next) {
   const token = req.header('auth-token')
 
   if (!token) {
-    error = new Error('Acesso negado')
+    const error = new Error('Acesso negado')
     error.status = 401
     next(error)
   }
@@ -14,7 +14,7 @@ function auth (req, res, next) {
     req.jwt_payload = jwt_payload
     next()
   } catch (error) {
-    error = new Error('Token inválido')
+    error.message = 'Token inválido'
     error.status = 401
     next(error)
   }
