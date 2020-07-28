@@ -14,8 +14,8 @@ function auth (req, res, next) {
     req.jwt_payload = jwt_payload
     next()
   } catch (error) {
-    error = new Error('Token invalido')
-    error.status = 400
+    error = new Error('Token inválido')
+    error.status = 401
     next(error)
   }
 }

@@ -16,7 +16,7 @@ module.exports = {
       next(error)
     }
   },
-  
+
   async show (req, res, next) {
     const { id } = req.params
 
@@ -34,7 +34,7 @@ module.exports = {
       next(error)
     }
   },
-  
+
   async create (req, res, next) {
     const { nome, email, senha } = req.body
 
@@ -57,8 +57,8 @@ module.exports = {
       })
     } catch (error) {
       // Valida email duplicado
-      if(error.errno === 1062){
-        error = new Error('E-mail já cadastrado')
+      if (error.errno === 1062) {
+        error.message = 'E-mail já cadastrado'
       }
       error.status = 400
       next(error)
@@ -117,7 +117,7 @@ module.exports = {
     // Check for e-mail
     const user = await knex('usuarios').where({ email: email }).first()
     if (!user) {
-      let error = new Error('E-mail ou senha inválidos')
+      const error = new Error('E-mail ou senha inválidos')
       error.status = 400
       next(error)
     }
@@ -125,7 +125,7 @@ module.exports = {
     // Check for bcrypt pass
     const checkBcrypt = await bcrypt.compare(senha, user.senha)
     if (!checkBcrypt) {
-      let error = new Error('E-mail ou senha inválidos')
+      const error = new Error('E-mail ou senha inválidos')
       error.status = 400
       next(error)
     }

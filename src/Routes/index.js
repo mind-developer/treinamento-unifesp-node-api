@@ -2,7 +2,7 @@ const express = require('express')
 const routes = express.Router()
 
 // Middlewares
-const authJWT = require('../Middlewares/auth')
+const authJWT = require('../Middlewares/authJWT')
 const handleError = require('../Middlewares/handleError')
 
 // Routes
