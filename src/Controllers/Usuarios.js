@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
+
   async index (req, res, next) {
     try {
       const usuarios = await knex('usuarios').select('id', 'nome', 'email')
@@ -87,7 +88,6 @@ module.exports = {
         }
       })
     } catch (error) {
-      console.log(error)
       error.status = 400
       next(error)
     }
@@ -117,17 +117,18 @@ module.exports = {
     // Check for e-mail
     const user = await knex('usuarios').where({ email: email }).first()
     if (!user) {
-      const error = new Error('E-mail ou senha inválidos')
+      const error = new Error('Credenciais inválidas')
       error.status = 400
       next(error)
+      return
     }
-
     // Check for bcrypt pass
     const checkBcrypt = await bcrypt.compare(senha, user.senha)
     if (!checkBcrypt) {
-      const error = new Error('E-mail ou senha inválidos')
+      const error = new Error('Credenciais inválidas')
       error.status = 400
       next(error)
+      return
     }
 
     // Generate jwt
